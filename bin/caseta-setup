@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Install the Caseta helper's Python dependency into a private venv, then pair
+# with a Lutron Caseta Smart Bridge. Safe to re-run: it upgrades the library and
+# re-pairs. Nothing here needs root.
+#
+# Usage: caseta-setup [bridge-ip]
+
+set -euo pipefail
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+VENV="${XDG_DATA_HOME:-$HOME/.local/share}/omarchy-caseta/venv"
+
+echo "Caseta lights setup"
+echo
+
+if [[ ! -x $VENV/bin/python ]]; then
+  echo "Creating Python venv in $VENV"
+  mkdir -p "$(dirname "$VENV")"
+  python3 -m venv "$VENV"
+fi
+
+echo "Installing pylutron-caseta..."
+"$VENV/bin/pip" install --quiet --disable-pip-version-check "pylutron-caseta==0.29.0"
+echo
+
+"$DIR/caseta-bridge" pair "$@"
+
+# Tell a running shell to reconnect with the new certificate.
+omarchy-shell -q caseta reconnect

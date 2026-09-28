@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "io.github.demirhere.caseta",
+  "name": "Caseta Lights",
+  "version": "1.0.0",
+  "author": "Dogan Demir",
+  "license": "MIT",
+  "homepage": "https://github.com/demirhere/omarchy-caseta",
+  "description": "Control Lutron Caseta lights, switches, fans and scenes from the Omarchy bar over the Smart Bridge's local LEAP API.",
+  "kinds": [
+    "service",
+    "bar-widget"
+  ],
+  "keepLoaded": true,
+  "entryPoints": {
+    "service": "Service.qml",
+    "barWidget": "Panel.qml"
+  },
+  "barWidget": {
+    "displayName": "Caseta Lights",
+    "description": "Dim and toggle Lutron Caseta lights by room, run scenes, and pin one light to the bar.",
+    "category": "Home",
+    "aliases": [
+      "lutron",
+      "lights",
+      "caseta",
+      "dimmer"
+    ],
+    "allowMultiple": false,
+    "defaultSection": "right"
+  }
+}

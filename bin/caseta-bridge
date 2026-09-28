@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Run the Caseta bridge helper inside the plugin's private Python venv.
+# Usage: caseta-bridge daemon|pair [host]|discover|status
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+VENV="${XDG_DATA_HOME:-$HOME/.local/share}/omarchy-caseta/venv"
+
+if [[ ! -x $VENV/bin/python ]]; then
+  if [[ ${1:-daemon} == "daemon" ]]; then
+    echo '{"event":"status","state":"not-installed","host":"","message":"Run setup to install pylutron-caseta"}'
+  else
+    echo "The Caseta venv is missing. Run $DIR/caseta-setup first." >&2
+  fi
+  exit 4
+fi
+
+exec "$VENV/bin/python" "$DIR/caseta_bridge.py" "$@"
